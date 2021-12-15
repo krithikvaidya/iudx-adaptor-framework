@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: server-deployment
+  labels:
+    app: server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: server
+  template:
+    metadata:
+      labels:
+        app: server
+    spec:
+      containers:
+        - name: server
+          image: iudx/adaptor-server:latest
+          imagePullPolicy: Never
+          env:
+            - name: M2_HOME
+              value: "/usr/share/maven/"
+          command: [ "/bin/sh" ]
+          args: ["-c", "java -jar server/target/server.jar -c configs/config.json -Dmaven.home=/root/.m2" ]
+          volumeMounts:
+            - mountPath: /usr/share/app/iudx-adaptor-framework/configs/
+              name: server-volume
+          ports:
+            - containerPort: 8080
+      volumes:
+      - name: server-volume
+        hostPath:
+          path: /home/krithik/Desktop/Git/iudx-adaptor-framework/configs/
+          type: Directory

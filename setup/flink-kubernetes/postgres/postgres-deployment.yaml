@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: psql-deployment
+  labels:
+    app: psql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: server
+  template:
+    metadata:
+      labels:
+        app: server
+    spec:
+      containers:
+      - name: postgres
+        image: postgres:13
+        imagePullPolicy: Never
+        env:
+          - name: TZ
+            value: Asia/Kolkata
+          - name: POSTGRES_PASSWORD
+            value: adaptor@db
+          - name: POSTGRES_USER
+            value: root
+          - name: POSTGRES_DB
+            value: iudx-adaptor
+#            - name: PGDATA
+#              value: /var/lib/postgresql/data/pgdata
+        volumeMounts:
+          - mountPath: /docker-entrypoint-initdb.d/adaptor-init.sql
+            name: psql-init-volume
+        ports:
+          - containerPort: 5432
+
+      - name: pgadmin
+        image: dpage/pgadmin4:latest
+        imagePullPolicy: Never
+        env:
+          - name: PGADMIN_DEFAULT_EMAIL
+            value: "test@gmail.com"
+          - name: PGADMIN_DEFAULT_PASSWORD
+            value: "adaptor@pgadmin"
+
+      volumes:
+        - name: psql-init-volume
+          hostPath:
+            path: /home/krithik/Desktop/Git/iudx-adaptor-framework/setup/postgres/adaptor-init.sql
+            type: File

@@ -1,0 +1,32 @@
+kubernetes.cluster-id: flink-cluster
+
+jobmanager.rpc.address: localhost
+taskmanager.numberOfTaskSlots: 3
+service-account: flink-service-account
+
+# The total process memory size for the JobManager.
+#
+# Note this accounts for all memory usage within the JobManager process, including JVM metaspace and other overhead.
+
+#jobmanager.memory.process.size: 1600m
+
+# The total process memory size for the TaskManager.
+#
+# Note this accounts for all memory usage within the TaskManager process, including JVM metaspace and other overhead.
+
+#taskmanager.memory.process.size: 1728m
+
+state.backend: filesystem
+s3.endpoint: http://127.0.0.1:9090
+s3.path.style.access: true
+s3.access-key: minio
+s3.secret-key: minio123
+
+presto.s3.access-key: minio
+presto.s3.secret-key: minio123
+presto.s3.endpoint: http://127.0.0.1:9090
+presto.s3.path-style-access: true
+
+high-availability: org.apache.flink.kubernetes.highavailability.KubernetesHaServicesFactory
+high-availability.storageDir: s3://recovery/
+
