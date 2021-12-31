@@ -1,0 +1,3 @@
+- Postgres is deployed using the helm chart (https://github.com/bitnami/charts/tree/master/bitnami/postgresql)
+- The *postgres-deployment.yaml* is currently unused
+- Command to create the release: ```helm install postgres bitnami/postgresql -f values.yaml```
