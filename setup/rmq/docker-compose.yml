@@ -12,7 +12,7 @@ services:
     volumes:
       - ./mock-rmq.json:/etc/rabbitmq/definitions.json
     environment:
-      - RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS=-rabbitmq_management load_definitions "/etc/rabbitmq/definitions.json"
+      - RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS=-rabbitmq_management load_definitions "/etc/rabbitmq/load_definition.json"
  
     ports:
       - 5672:5672

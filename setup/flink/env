@@ -12,7 +12,7 @@ s3.secret-key: minio123
 
 presto.s3.access-key: minio 
 presto.s3.secret-key: minio123  
-presto.s3.endpoint: http://minio1:9000   
+presto.s3.endpoint: http://minio1:9000
 presto.s3.path-style-access: true
 
 high-availability: zookeeper

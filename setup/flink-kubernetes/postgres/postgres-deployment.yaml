@@ -17,7 +17,7 @@ spec:
       containers:
       - name: postgres
         image: postgres:13
-        imagePullPolicy: Never
+        imagePullPolicy: IfNotPresent
         env:
           - name: TZ
             value: Asia/Kolkata
@@ -37,7 +37,7 @@ spec:
 
       - name: pgadmin
         image: dpage/pgadmin4:latest
-        imagePullPolicy: Never
+        imagePullPolicy: IfNotPresent
         env:
           - name: PGADMIN_DEFAULT_EMAIL
             value: "test@gmail.com"

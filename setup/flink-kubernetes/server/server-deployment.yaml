@@ -25,11 +25,15 @@ spec:
           args: ["-c", "java -jar server/target/server.jar -c configs/config.json -Dmaven.home=/root/.m2" ]
           volumeMounts:
             - mountPath: /usr/share/app/iudx-adaptor-framework/configs/
-              name: server-volume
+              name: server-config
           ports:
             - containerPort: 8080
       volumes:
-      - name: server-volume
-        hostPath:
-          path: /home/krithik/Desktop/Git/iudx-adaptor-framework/configs/
-          type: Directory
+      - name: server-config
+        configMap:
+          name: server-config
+          items:
+            - key: config.json
+              path: config.json
+            - key: quartz.properties
+              path: quartz.properties

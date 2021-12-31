@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: jobmanager-pod-template
+spec:
+  containers:
+    - name: flink-main-container

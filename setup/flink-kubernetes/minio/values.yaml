@@ -1,11 +1,13 @@
+
+
 ## MinIO Tenant Definition
 tenants:
   # Tenant name
   - name: minio1
     ## Registry location and Tag to download MinIO Server image
     image:
-      repository: minio/minio
-      tag: RELEASE.2021-08-31T05-46-54Z
+      repository: minio/operator
+      tag: v4.3.8
       pullPolicy: IfNotPresent
     namespace: default
     pools:
@@ -32,3 +34,6 @@ tenants:
       ## Enable automatic Kubernetes based certificate generation and signing as explained in
       ## https://kubernetes.io/docs/tasks/tls/managing-tls-in-a-cluster
       requestAutoCert: false
+
+      kubectl port-forward --namespace default svc/postgres-postgresql 5432:5432 &
+      PGPASSWORD="root" psql --host postgres-postgresql -U root -d iudx-adaptor -p 5432
