@@ -34,6 +34,3 @@ tenants:
       ## Enable automatic Kubernetes based certificate generation and signing as explained in
       ## https://kubernetes.io/docs/tasks/tls/managing-tls-in-a-cluster
       requestAutoCert: false
-
-      kubectl port-forward --namespace default svc/postgres-postgresql 5432:5432 &
-      PGPASSWORD="root" psql --host postgres-postgresql -U root -d iudx-adaptor -p 5432

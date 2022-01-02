@@ -1,0 +1,2 @@
+- An optional setup for monitoring kubernetes state metrics using prometheus
+- https://devopscube.com/setup-kube-state-metrics/
