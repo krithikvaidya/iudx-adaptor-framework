@@ -6,7 +6,7 @@ metadata:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
-    - host: flink-deployment
+    - host: flink-deployment # http://flink-deployment
       http:
         paths:
           - path: /

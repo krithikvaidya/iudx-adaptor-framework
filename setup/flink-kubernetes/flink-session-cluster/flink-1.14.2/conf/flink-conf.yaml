@@ -1,20 +1,18 @@
 kubernetes.cluster-id: flink-cluster
 
 jobmanager.rpc.address: localhost
-taskmanager.numberOfTaskSlots: 3
+taskmanager.numberOfTaskSlots: 10
 service-account: flink-service-account
 
 # The total process memory size for the JobManager.
-#
 # Note this accounts for all memory usage within the JobManager process, including JVM metaspace and other overhead.
-
-jobmanager.memory.process.size: 1600m
+jobmanager.memory.process.size: 1500Mb
 
 # The total process memory size for the TaskManager.
-#
 # Note this accounts for all memory usage within the TaskManager process, including JVM metaspace and other overhead.
-
-taskmanager.memory.process.size: 1728m
+taskmanager.memory.process.size: 3000Mb
+#taskmanager.memory.task.heap.size: 600Mb
+#taskmanager.memory.managed.size: 200Mb
 
 state.backend: filesystem
 s3.endpoint: http://minio1:9000

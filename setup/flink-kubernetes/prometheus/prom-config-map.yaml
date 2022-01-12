@@ -33,7 +33,7 @@ data:
     scrape_configs:
       - job_name: 'flink'
         static_configs:
-          - targets: ['10.107.31.134:9250', '172-17-0-7.default.pod:9250'] # TODO: make these dynamic
+          - targets: ['172-17-0-4.default.pod.cluster.local:9250', '172-17-0-1.default.pod.cluster.local:9250', '172-17-0-2.default.pod.cluster.local:9250', '172-17-0-3.default.pod.cluster.local:9250', '172-17-0-4.default.pod.cluster.local:9250'] # TODO: make these dynamic
     
       - job_name: 'node-exporter'
         kubernetes_sd_configs:
