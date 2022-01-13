@@ -16,8 +16,8 @@ spec:
     spec:
       containers:
         - name: mockserver
-          image: iudx/adaptor-mockserver:latest
-          imagePullPolicy: Never
+          image: krithikvaidya/adaptor-mockserver:latest
+          imagePullPolicy: IfNotPresent
           command: [ "java" ]
           args: [ "-jar", "mockserver/target/mockserver.jar" ]
           ports:

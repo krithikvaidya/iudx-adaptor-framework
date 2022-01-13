@@ -5,8 +5,8 @@
 replicaCount: 1
 
 image:
-  repository: iudx/adaptor-server:latest
-  pullPolicy: Never
+  repository: krithikvaidya/adaptor-server:latest
+  pullPolicy: IfNotPresent
 
 service:
   type: ClusterIP
