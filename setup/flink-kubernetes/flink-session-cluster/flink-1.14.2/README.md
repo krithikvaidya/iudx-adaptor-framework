@@ -1,7 +1,6 @@
-- This folder contains the files that are part of the official Flink installation (https://flink.apache.org/downloads.html)
-- Flink 1.14.0
-- The *conf/flink-conf.yaml* file has been modified according to our needs
-- To run a session cluster,
+- This folder contains the flink-conf.yaml to be placed in subfolder *conf/* of the Flink distribution.
+- Flink 1.14.2
+- To run a session cluster, navigate to the Flink distribution folder, and run
 ```
 ./bin/kubernetes-session.sh -Dkubernetes.cluster-id=flink-cluster -Dkubernetes.service-account=flink-service-account   -Dkubernetes.container.image=f114:latest 
 ```
