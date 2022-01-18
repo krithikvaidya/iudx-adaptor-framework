@@ -1,0 +1,40 @@
+kubernetes.cluster-id: flink-cluster
+
+jobmanager.rpc.address: localhost
+taskmanager.numberOfTaskSlots: 10
+service-account: flink-service-account
+
+# The total process memory size for the JobManager.
+# Note this accounts for all memory usage within the JobManager process, including JVM metaspace and other overhead.
+jobmanager.memory.process.size: 1500Mb
+
+# The total process memory size for the TaskManager.
+# Note this accounts for all memory usage within the TaskManager process, including JVM metaspace and other overhead.
+taskmanager.cpu.cores: 1
+taskmanager.memory.process.size: 3000Mb
+#taskmanager.memory.task.heap.size: 600Mb
+#taskmanager.memory.managed.size: 200Mb
+
+# Default is 300000 (5 min), but since the EC2 instances were usually taking > 5min to provision, increase the timeout 
+# With the slotmanager.redundant-taskmanager-num set as non zero, it's not necessary to set this
+slot.request.timeout: 600000
+
+slotmanager.redundant-taskmanager-num: 1
+
+state.backend: filesystem
+s3.endpoint: http://minio1:9000
+s3.path.style.access: true
+s3.access-key: minio
+s3.secret-key: minio123
+
+presto.s3.access-key: minio
+presto.s3.secret-key: minio123
+presto.s3.endpoint: http://minio1:9000
+presto.s3.path-style-access: true
+
+high-availability: org.apache.flink.kubernetes.highavailability.KubernetesHaServicesFactory
+high-availability.storageDir: s3://recovery/
+
+metrics.reporters: prom
+metrics.reporter.prom.class: org.apache.flink.metrics.prometheus.PrometheusReporter
+metrics.reporter.prom.port: 9250-9260

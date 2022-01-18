@@ -1,0 +1,73 @@
+{
+    "name": "employeeMaster2",
+    "schedulePattern": "0 0/1 * * * ?",
+    "inputSpec": {
+        "type": "http",
+        "url": "http://220.227.12.155/vsclapi/SWMService.svc/GetEmployeeMaster",
+        "requestType": "GET",
+        "pollingInterval": -1
+    },
+
+    "parseSpec": {
+        "type": "json",
+        "messageContainer": "array",
+        "containerPath": "$.employeeMasters",
+        "keyPath": "$.EmployeeCode"
+    },
+
+    "deduplicationSpec": {
+        "type": "timeBased"
+    },
+
+    "transformSpec": {
+        "type": "jsPath",
+        "template": "{'id': 'dk.org/abc/varansi/live', 'serviceCompany': 'abc', 'employmentUnit': 'xxxyy', 'department': 'abc','employeeDesignation':'abc','employmentType':'abc','employeeID':'abc','gender':'abc','shiftOfOperation':'abc','wardNum':4}",
+        "jsonPathSpec": [{
+                "outputKeyPath": "$.serviceCompany",
+                "inputValuePath": "$.AgencyName"
+            },
+            {
+                "outputKeyPath": "$.employmentUnit",
+                "inputValuePath": "$.CategoryOfWork"
+            },
+            {
+                "outputKeyPath": "$.department",
+                "inputValuePath": "$.Department"
+            },
+            {
+                "outputKeyPath": "$.employeeDesignation",
+                "inputValuePath": "$.Designation"
+            },
+            {
+                "outputKeyPath": "$.employmentType",
+                "inputValuePath": "$.EmpType"
+            },
+            {
+                "outputKeyPath": "$.employeeID",
+                "inputValuePath": "$.EmployeeCode"
+            },
+            {
+                "outputKeyPath": "$.gender",
+                "inputValuePath": "$.Gender"
+            },
+            {
+                "outputKeyPath": "$.shiftOfOperation",
+                "inputValuePath": "$.ShiftType"
+            },
+            {
+                "outputKeyPath": "$.wardNum",
+                "inputValuePath": "$.WardNo"
+            }
+        ]
+    },
+
+    "publishSpec": {
+        "type": "rmq",
+        "url": "amqp://mockrmq",
+        "port": 5672,
+        "uname": "guest",
+        "password": "guest",
+        "sinkName": "adaptor-test",
+        "tagName": "test"
+    }
+}

@@ -1,0 +1,60 @@
+{
+    "name": "rrakstest",
+
+    "inputSpec": {
+        "type": "http",
+        "url": "http://117.206.154.182:8081/api/wms/getsensortypedata/4075/1",
+        "headers": [
+            {
+                "key": "Authorization",
+                "value": "Basic c3dtczpzd21zQDMyMQ=="
+            }
+        ],
+        "requestType": "GET",
+        "pollingInterval": 10000
+    },
+
+    "parseSpec": {
+        "type": "json",
+        "messageContainer": "array",
+        "containerPath": "$",
+        "keyPath": "$.Source_SensorID"
+    },
+    
+    "deduplicationSpec": {
+        "type": "timeBased"
+    },
+    
+    "transformSpec": {
+        "type": "jsPath",
+        "template": "{'id': 'abc', 'level': 10.0, 'observationDateTime': '123'}",
+        "jsonPathSpec":[
+            {
+                "outputKeyPath": "$.observationDateTime",
+                "inputValuePath": "$.DATETIME1"
+            },
+            {
+                "outputKeyPath": "$.id",
+                "inputValuePath": "$.Surce_SensorID",
+                "valueModifierScript": "'datakaveri.org/123/vadowater/' + value"
+            },
+            {
+                "outputKeyPath": "$.level",
+                "inputValuePath": "$.SensorData_Value"
+            }
+        ]
+    },
+
+    "publishSpec": {
+        "type": "rmq",
+        "url": "amqp://mockrmq",
+        "port": 5672,
+        "uname": "guest",
+        "password": "guest",
+        "sinkName": "adaptor-test",
+        "tagName": "test"
+    }
+}
+
+
+

@@ -1,0 +1,61 @@
+{
+    "name": "bikes10",
+
+    "inputSpec": {
+        "type": "http",
+        "url": "https://api.charteredbike.in/api/v1/stations/show-stations-on-map/open?domain=asia&companyregionid=2",
+        "requestType": "GET",
+        "pollingInterval": 10000
+    },
+
+    "parseSpec": {
+        "type": "json",
+        "messageContainer": "array",
+        "containerPath": "$.data[0].mapStationDTOs",
+        "trickle": [
+            {
+                "keyPath": "$.meta.responseTimeStamp",
+                "keyName": "time"
+            }
+        ],
+        "keyPath": "$.stationName",
+        "timestampPath": "$.time",
+        "inputTimeFormat": "yyyy-MM-dd'T'HH:mm:ss.sssZ",
+        "outputTimeFormat": "yyyy-MM-dd'T'HH:mm:ssXXX"
+    },
+    "deduplicationSpec": {
+        "type": "timeBased"
+    },
+    
+
+    "transformSpec": {
+        "type": "jsPath",
+        "template": "{'id': 'dk.org/abc/suratbikes/live', 'observationDateTime': '2021', 'stationName': 'xxxyy', 'totalSlotNumber': 1}",
+        "jsonPathSpec":[
+            {
+                "outputKeyPath": "$.stationName",
+                "inputValuePath": "$.stationName"
+            },
+            {
+                "outputKeyPath": "$.totalSlotNumber",
+                "inputValuePath": "$.bikesRack"
+            },
+            {
+                "outputKeyPath": "$.observationDateTime",
+                "inputValuePath": "$.time"
+            }
+        ]
+    },
+
+    "publishSpec": {
+        "type": "rmq",
+        "url": "amqp://rmq-rabbitmq",
+        "port": 5672,
+        "uname": "guest",
+        "password": "guest",
+        "sinkName": "adaptor-test",
+        "tagName": "test"
+    }
+}
+
+

@@ -1,0 +1,65 @@
+{
+    "name": "waste32",
+
+    "inputSpec": {
+        "type": "http",
+        "url": "http://220.227.12.155/vsclapi/SWMService.svc/GetBinDetailsFromTime/xxx",
+        "requestGenerationScripts": [
+            {
+                "in": "url",
+                "pattern": "xxx",
+                "script": "val = new Date().toJSON().slice(0,10)"
+            }
+        ],
+        "requestType": "GET",
+        "pollingInterval": 10000
+    },
+
+    "parseSpec": {
+        "type": "json",
+        "messageContainer": "array",
+        "containerPath": "$.binDetails",
+        "keyPath": "$.SensorID",
+        "timestampPath": "$.CleanedTime",
+        "inputTimeFormat": "yyyy-MM-dd' 'HH:mm:ss",
+        "outputTimeFormat": "yyyy-MM-dd'T'HH:mm:ssXXX"
+    },
+    "deduplicationSpec": {
+        "type": "timeBased"
+    },
+    
+
+    "transformSpec": {
+        "type": "jsPath",
+        "template": "{'id': 'dk.org/a/b/c', 'capactiy': 0, 'location': [1.0, 1.0]}",
+        "jsonPathSpec":[
+            {
+                "outputKeyPath": "$.capactiy",
+                "inputValuePath": "$.Capacity",
+                "valueModifierScript": "parseFloat(value)"
+            },
+            {
+                "outputKeyPath": "$.location[1]",
+                "inputValuePath": "$.Latitude",
+                "valueModifierScript": "parseFloat(value)"
+            },
+            {
+                "outputKeyPath": "$.location[0]",
+                "inputValuePath": "$.Longitude",
+                "valueModifierScript": "parseFloat(value)"
+            }
+        ]
+    },
+
+    "publishSpec": {
+        "type": "rmq",
+        "url": "amqp://10.96.208.95",
+        "port": 5672,
+        "uname": "guest",
+        "password": "guest",
+        "sinkName": "adaptor-test",
+        "tagName": "test"
+    }
+}
+
+
