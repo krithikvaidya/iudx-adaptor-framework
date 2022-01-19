@@ -19,7 +19,18 @@ taskmanager.memory.process.size: 3000Mb
 # With the slotmanager.redundant-taskmanager-num set as non zero, it's not necessary to set this
 slot.request.timeout: 600000
 
+# Default value is 30s, but it would cause redundant task manager to keep spinning up until the first redundant TM
+# changes from pending -> running state
+resourcemanager.taskmanager-timeout: 600000
+
 slotmanager.redundant-taskmanager-num: 1
+
+# restart-delay
+# If checkpointing is disabled, the default value is none.
+# If checkpointing is enabled, the default value is fixed-delay with Integer.MAX_VALUE restart attempts and '1 s' delay.
+restart-strategy: fixed-delay
+restart-strategy.fixed-delay.attempts: 20 # default = 1
+restart-strategy.fixed-delay.delay: 30 s # default = 1 s
 
 state.backend: filesystem
 s3.endpoint: http://minio1:9000
