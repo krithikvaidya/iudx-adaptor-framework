@@ -12,6 +12,8 @@ upload-jar/*
 
 tags
 
+flink-dist/
+
 
 /target/
 ./dependency-reduced-pom.xml
