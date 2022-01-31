@@ -23,16 +23,22 @@ slot.request.timeout: 600000
 # changes from pending -> running state
 resourcemanager.taskmanager-timeout: 600000
 
-slotmanager.redundant-taskmanager-num: 1
+# slotmanager.redundant-taskmanager-num: 1
 
 # restart-delay
 # If checkpointing is disabled, the default value is none.
 # If checkpointing is enabled, the default value is fixed-delay with Integer.MAX_VALUE restart attempts and '1 s' delay.
-restart-strategy: fixed-delay
-restart-strategy.fixed-delay.attempts: 20 # default = 1
-restart-strategy.fixed-delay.delay: 30 s # default = 1 s
 
-state.backend: filesystem
+restart-strategy: exponential-delay
+restart-strategy.exponential-delay.max-backoff: 60 min
+#restart-strategy: fixed-delay
+#restart-strategy.fixed-delay.attempts: 20 # default = 1
+#restart-strategy.fixed-delay.delay: 30 s # default = 1 s
+
+state.backend: hashmap
+state.checkpoint-storage: filesystem
+state.checkpoints.dir: s3://flink/checkpoints
+
 s3.endpoint: http://minio1:9000
 s3.path.style.access: true
 s3.access-key: minio
