@@ -59,7 +59,7 @@ public class Simple {
 
     HttpServerResponse response = routingContext.response();
 
-    String timeNow = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssX")
+    String timeNow = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
                               .withZone(ZoneOffset.UTC)
                               .format(Instant.now());
 

@@ -49,28 +49,38 @@ import in.org.iudx.adaptor.sink.StaticStringPublisher;
 import in.org.iudx.adaptor.process.JoltTransformer;
 import in.org.iudx.adaptor.process.TimeBasedDeduplicator;
 
+import in.org.iudx.adaptor.sink.AMQPSink;
+import in.org.iudx.adaptor.sink.StaticStringPublisher;
+import in.org.iudx.adaptor.codegen.RMQConfig;
+
+
+import org.apache.flink.streaming.connectors.rabbitmq.common.RMQConnectionConfig;
+import org.apache.flink.api.common.serialization.SerializationSchema;
+import org.apache.flink.streaming.connectors.rabbitmq.RMQSinkPublishOptions;
+import org.apache.flink.streaming.connectors.rabbitmq.RMQSink;
+
+import com.rabbitmq.client.AMQP;
+import com.rabbitmq.client.AMQP.BasicProperties;
 
 public class HttpSourceTest {
 
-  public static MiniClusterWithClientResource flinkCluster;
-
-
-  private static StreamExecutionEnvironment env = StreamExecutionEnvironment.createLocalEnvironment();
+//  public static MiniClusterWithClientResource flinkCluster;
+  private static StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
 
   private static final Logger LOGGER = LogManager.getLogger(HttpSourceTest.class);
 
   @BeforeAll
   public static void initialize() {
     LOGGER.debug("Info: Testing");
-    flinkCluster =
-      new MiniClusterWithClientResource(
-          new MiniClusterResourceConfiguration.Builder()
-          .setNumberSlotsPerTaskManager(2)
-          .setNumberTaskManagers(1)
-          .build());
+//    flinkCluster =
+//      new MiniClusterWithClientResource(
+//          new MiniClusterResourceConfiguration.Builder()
+//          .setNumberSlotsPerTaskManager(2)
+//          .setNumberTaskManagers(1)
+//          .build());
 
 
-    StreamExecutionEnvironment.createLocalEnvironment();
+//    StreamExecutionEnvironment.getExecutionEnvironment();
     env.setParallelism(1);
 
     env.enableCheckpointing(10000L);
@@ -95,16 +105,24 @@ public class HttpSourceTest {
                                           .setRequestType("GET")
                                           .setHeader("Authorization",
                                                     "Basic YWRtaW46YWRtaW4=")
-                                          .setPollingInterval(1000L);
+                                          .setPollingInterval(1L);
 
+
+
+    RMQConfig amqconfig = new RMQConfig();
+    amqconfig.setPublisher(new StaticStringPublisher("adaptor-test", "test"));
+    amqconfig.builder.setUri("amqp://localhost")
+            .setPort(5672)
+            .setUserName("guest")
+            .setPassword("guest");
+    amqconfig.getConfig();
 
     DataStreamSource<Message> so = env.addSource(new HttpSource<Message>(apiConfig, parser));
     /* Include process */
     so
         .keyBy((Message msg) -> msg.key)
         .process(new GenericProcessFunction(trans,dedup))
-        .addSink(new DumbSink());
-
+        .addSink(new AMQPSink(amqconfig));
 
     try {
       env.execute("Simple Get");
@@ -126,7 +144,7 @@ public class HttpSourceTest {
     ApiConfig apiConfig = 
       new ApiConfig().setUrl("http://127.0.0.1:8888/simpleB")
                                           .setRequestType("GET")
-                                          .setPollingInterval(1000L);
+                                          .setPollingInterval(1L);
 
     DataStreamSource<Message> so = env.addSource(new HttpSource<List<Message>>(apiConfig, parser));
     /* Include process */
@@ -155,7 +173,7 @@ public class HttpSourceTest {
     ApiConfig apiConfig = 
       new ApiConfig().setUrl("http://127.0.0.1:8888/simpleB")
                                           .setRequestType("GET")
-                                          .setPollingInterval(1000L);
+                                          .setPollingInterval(1L);
 
     String parseSpec = new JSONObject()
                                 .put("containerPath", "$.data")
@@ -214,7 +232,7 @@ void dynUrl() throws InterruptedException {
                                           .setRequestType("GET")
                                           .setHeader("Authorization",
                                                     "Basic YWRtaW46YWRtaW4=")
-                                          .setPollingInterval(1000L)
+                                          .setPollingInterval(1L)
                                           .setParamGenScript("url", "path", script);
 
 
