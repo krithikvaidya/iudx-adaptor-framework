@@ -5,7 +5,7 @@ import in.org.iudx.adaptor.codegen.MinioConfig;
 import in.org.iudx.adaptor.codegen.Transformer;
 import in.org.iudx.adaptor.datatypes.Message;
 import in.org.iudx.adaptor.utils.HashMapState;
-import in.org.iudx.adaptor.utils.MinioClientHelper;
+//import in.org.iudx.adaptor.utils.MinioClientHelper;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.streaming.api.functions.KeyedProcessFunction;
 import org.apache.flink.util.Collector;
@@ -17,7 +17,7 @@ public class BoundedProcessFunction extends KeyedProcessFunction<String,Message,
 
     private HashMapState streamState;
 
-    private MinioClientHelper minioClientHelper;
+//    private MinioClientHelper minioClientHelper;
 
     private final Transformer transformer;
     private final Deduplicator deduplicator;
@@ -45,13 +45,13 @@ public class BoundedProcessFunction extends KeyedProcessFunction<String,Message,
     @Override
     public void open(Configuration config) throws Exception {
         streamState = new HashMapState();
-        minioClientHelper = new MinioClientHelper(minioConfig);
-
-        byte[] result = minioClientHelper.getObject();
-
-        if(result != null && result.length != 0) {
-            streamState.deserialize(result);
-        }
+//        minioClientHelper = new MinioClientHelper(minioConfig);
+//
+//        byte[] result = minioClientHelper.getObject();
+//
+//        if(result != null && result.length != 0) {
+//            streamState.deserialize(result);
+//        }
     }
 
     @Override
@@ -90,7 +90,7 @@ public class BoundedProcessFunction extends KeyedProcessFunction<String,Message,
     public void close() {
         try{
             LOGGER.info("Saving state");
-            minioClientHelper.putObject(streamState.serialize());
+//            minioClientHelper.putObject(streamState.serialize());
         }
         catch(Exception e) {
             LOGGER.error("Error saving the state to minio");
