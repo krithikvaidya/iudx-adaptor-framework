@@ -9,8 +9,10 @@ image:
   pullPolicy: IfNotPresent
 
 service:
-  type: ClusterIP
+  type: NodePort
   port: 8080
+  targetPort: 8080
+  nodePort: 30003
 
 env:
   - name: M2_HOME
