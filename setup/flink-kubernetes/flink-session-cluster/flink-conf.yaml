@@ -6,12 +6,13 @@ service-account: flink-service-account
 
 # The total process memory size for the JobManager.
 # Note this accounts for all memory usage within the JobManager process, including JVM metaspace and other overhead.
-jobmanager.memory.process.size: 1500Mb
+jobmanager.memory.process.size: 1000Mb
+kubernetes.jobmanager.cpu: 0.5
 
 # The total process memory size for the TaskManager.
 # Note this accounts for all memory usage within the TaskManager process, including JVM metaspace and other overhead.
-taskmanager.cpu.cores: 1
-taskmanager.memory.process.size: 3000Mb
+kubernetes.taskmanager.cpu: 0.5
+taskmanager.memory.process.size: 1500Mb
 #taskmanager.memory.task.heap.size: 600Mb
 #taskmanager.memory.managed.size: 200Mb
 
@@ -23,16 +24,22 @@ slot.request.timeout: 600000
 # changes from pending -> running state
 resourcemanager.taskmanager-timeout: 600000
 
-slotmanager.redundant-taskmanager-num: 1
+# slotmanager.redundant-taskmanager-num: 1
 
 # restart-delay
 # If checkpointing is disabled, the default value is none.
 # If checkpointing is enabled, the default value is fixed-delay with Integer.MAX_VALUE restart attempts and '1 s' delay.
-restart-strategy: fixed-delay
-restart-strategy.fixed-delay.attempts: 20 # default = 1
-restart-strategy.fixed-delay.delay: 30 s # default = 1 s
 
-state.backend: filesystem
+restart-strategy: exponential-delay
+restart-strategy.exponential-delay.max-backoff: 60 min
+#restart-strategy: fixed-delay
+#restart-strategy.fixed-delay.attempts: 20 # default = 1
+#restart-strategy.fixed-delay.delay: 30 s # default = 1 s
+
+state.backend: hashmap
+state.checkpoint-storage: filesystem
+state.checkpoints.dir: s3://flink/checkpoints
+
 s3.endpoint: http://minio1:9000
 s3.path.style.access: true
 s3.access-key: minio

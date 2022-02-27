@@ -1,2 +1,2 @@
 - Setup was done similar to the procedure mentioned in https://devopscube.com/setup-grafana-kubernetes/
-- Custom Flink dashboards are available on the grafana dashboards website.
+- Custom Flink dashboards are available on the grafana dashboards website (examples - https://grafana.com/grafana/dashboards/14911, https://grafana.com/grafana/dashboards/13055)
