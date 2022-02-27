@@ -94,8 +94,8 @@ public class Server extends AbstractVerticle {
     /* Route for enabling file upload with dir */
     router.route().handler(
         BodyHandler.create()
-                   .setUploadsDirectory(JAR_OUT_PATH)
-                   .setDeleteUploadedFilesOnEnd(true));
+                   .setUploadsDirectory(JAR_OUT_PATH));
+//                   .setDeleteUploadedFilesOnEnd(true));
     
     router.route().handler(
         CorsHandler.create("*")

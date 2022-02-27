@@ -36,6 +36,7 @@ public class HashMapState {
         ByteArrayOutputStream outBytes = new ByteArrayOutputStream();
         ObjectOutputStream out = new ObjectOutputStream(outBytes);
         out.writeObject(this.map);
+        out.close();
         return outBytes.toByteArray();
     }
 
@@ -43,6 +44,7 @@ public class HashMapState {
         ByteArrayInputStream inBytes = new ByteArrayInputStream(bytes);
         ObjectInputStream in = new ObjectInputStream(inBytes);
         this.map = (HashMap<String, Message>) in.readObject();
+        in.close();
         return map;
     }
 }
