@@ -98,9 +98,7 @@ public class MinioClientHelper {
     public byte[] getObject() {
         try (InputStream stream1 = minioClient.getObject(
                 GetObjectArgs.builder().bucket(bucketName).object(objectName).build())) {
-            byte[] temp = stream1.readAllBytes();
-            stream1.close();
-            return temp;
+            return stream1.readAllBytes();
         }
         catch (Exception e) {
             LOGGER.error(e);
@@ -111,8 +109,6 @@ public class MinioClientHelper {
     public byte[] getObject(String objectName) {
         try (InputStream stream1 = minioClient.getObject(
                 GetObjectArgs.builder().bucket(bucketName).object(objectName).build())) {
-            byte[] temp = stream1.readAllBytes();
-            stream1.close();
             return stream1.readAllBytes();
         }
         catch (Exception e) {
