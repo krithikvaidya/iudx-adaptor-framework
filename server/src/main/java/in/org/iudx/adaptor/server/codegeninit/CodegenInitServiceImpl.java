@@ -136,7 +136,7 @@ public class CodegenInitServiceImpl implements CodegenInitService {
                   } else if (mvHandler.failed()) {
                     blockingCodeHandler.fail(new JsonObject().put(STATUS, FAILED).toString());
                   }
-                  // tempCleanUp(destinationDirectory);
+                   tempCleanUp(destinationDirectory);
                 });
 
           } catch (MavenInvocationException e) {
@@ -178,7 +178,7 @@ public class CodegenInitServiceImpl implements CodegenInitService {
           LOGGER.error("Error: Jar submission failed; " + responseHandler.cause().getMessage());
           blockingCodeHandler.fail(responseHandler.cause());
         }
-        // tempCleanUp(request.getString(PATH));
+         tempCleanUp(request.getString(PATH));
       });
     }, true, resultHandler -> {
       if (resultHandler.succeeded()) {

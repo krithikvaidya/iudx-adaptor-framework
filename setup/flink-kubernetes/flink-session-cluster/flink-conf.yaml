@@ -6,12 +6,13 @@ service-account: flink-service-account
 
 # The total process memory size for the JobManager.
 # Note this accounts for all memory usage within the JobManager process, including JVM metaspace and other overhead.
-jobmanager.memory.process.size: 1500Mb
+jobmanager.memory.process.size: 1000Mb
+kubernetes.jobmanager.cpu: 0.5
 
 # The total process memory size for the TaskManager.
 # Note this accounts for all memory usage within the TaskManager process, including JVM metaspace and other overhead.
-taskmanager.cpu.cores: 1
-taskmanager.memory.process.size: 3000Mb
+kubernetes.taskmanager.cpu: 0.5
+taskmanager.memory.process.size: 1500Mb
 #taskmanager.memory.task.heap.size: 600Mb
 #taskmanager.memory.managed.size: 200Mb
 

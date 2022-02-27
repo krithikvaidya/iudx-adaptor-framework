@@ -95,7 +95,7 @@ public class Server extends AbstractVerticle {
     router.route().handler(
         BodyHandler.create()
                    .setUploadsDirectory(JAR_OUT_PATH));
-//                   .setDeleteUploadedFilesOnEnd(true));
+                   .setDeleteUploadedFilesOnEnd(true));
     
     router.route().handler(
         CorsHandler.create("*")

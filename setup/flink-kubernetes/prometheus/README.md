@@ -1,2 +1,3 @@
-- Prometheus setup, to monitor Kubernetes and Flink metrics (not completely set up)
+- Basic Prometheus setup, to monitor Kubernetes and Flink metrics
+- Need to incorporate persistence
 - Primarily setup using the procedure followed at https://devopscube.com/setup-prometheus-monitoring-on-kubernetes/
