@@ -292,7 +292,7 @@ public class TopologyBuilder {
             if (isBoundedJob) {
                 mainBuilder.addStatement("$T<$T> ds = so"
                                 + ".keyBy(($T msg) -> msg.key)"
-                                + ".process(new $T(trans, dedup, minioConfig))",
+                                + ".process(new $T(trans, dedup, null))",
                         SingleOutputStreamOperator.class, Message.class,
                         Message.class, BoundedProcessFunction.class);
             } else {
